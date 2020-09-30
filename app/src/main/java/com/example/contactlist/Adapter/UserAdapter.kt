@@ -1,24 +1,42 @@
 package com.example.contactlist.Adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactlist.Data.User
 import com.example.contactlist.R
-import com.example.contactlist.ViewHolder.UserViewHolder
+import kotlinx.android.synthetic.main.list_c_item.view.*
+import kotlinx.android.synthetic.main.list_h_item.view.*
+import kotlinx.android.synthetic.main.list_c_item.view.first_name as first_name1
+import kotlinx.android.synthetic.main.list_c_item.view.last_name as last_name1
+import kotlinx.android.synthetic.main.list_c_item.view.number as number1
 
 class UserAdapter(
     private val users: List<User>,
-    private val onClick: (User) -> Unit
-): RecyclerView.Adapter<UserViewHolder>() {
+    private val onClick: (User) -> Unit,
+    private val onButtonClick: (User) -> Unit
+): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     init {
         notifyDataSetChanged()
     }
 
     companion object {
-        private const val TYPE_HORIZONTAL = 0
-        private const val TYPE_VERTICAL = 1
+        const val TYPE_HORIZONTAL = 0
+        const val TYPE_VERTICAL = 1
+    }
+
+    inner class UserViewHolder(var root: View) : RecyclerView.ViewHolder(root) {
+        fun bind(user: User) {
+            with(root) {
+                first_name.text = user.firstName
+                last_name.setImageURI(Uri.parse(user.lastName))
+                number.text = user.number
+                image.setOnClickListener { onButtonClick(user) }
+            }
+        }
     }
 
     override fun getItemCount() = users.size
@@ -35,7 +53,7 @@ class UserAdapter(
                 holder = UserViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(
-                            R.layout.list_h_item,
+                            R.layout.list_c_item,
                             parent,
                             false
                         )
@@ -58,14 +76,18 @@ class UserAdapter(
         holder!!.root.setOnClickListener {
             onClick(users[holder.adapterPosition])
         }
+
         return holder
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (position % 2) {
-            1 -> TYPE_HORIZONTAL
-            0 -> TYPE_VERTICAL // To Change
-            else -> throw IllegalArgumentException("Invalid type of data " + position)
+            0 -> TYPE_VERTICAL
+            else -> TYPE_VERTICAL
+//            2 -> TYPE_VERTICAL // To Change
+//            3 -> TYPE_VERTICAL // To Change
+//            4 -> TYPE_VERTICAL // To Change
+//            else -> throw IllegalArgumentException("Invalid type of data " + position)
         }
     }
 }
