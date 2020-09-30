@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="user_amount_strings">
+        <item quantity="one">Найдено %1$d контакт</item>
+        <item quantity="few">Найдено %1$d контакта</item>
+        <item quantity="many">Найдено %1$d контактов</item>
+        <item quantity="other">Найдено %1$d контактов</item>
+    </plurals>
+    <string name="app_name">ContactList</string>
+    <string name="touch">Нажал на контакт</string>
+    <string name="deny">Нет разрешения</string>
+</resources>

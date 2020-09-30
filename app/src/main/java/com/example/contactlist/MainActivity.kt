@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.contactlist.Adapter.UserAdapter
 import com.example.contactlist.Data.User
+import com.example.contactlist.R.plurals.user_amount_strings
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.MessageFormat
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,9 +56,11 @@ class MainActivity : AppCompatActivity() {
 //        viewManager = GridLayoutManager(this, 2)
         val viewManager = LinearLayoutManager(this)
         userList = fetchAllContacts()
+        val amount: String = this.resources.getQuantityString(user_amount_strings,
+            userList.size, userList.size)
         Toast.makeText(
             this@MainActivity,
-            "${userList.size}", Toast.LENGTH_SHORT
+            MessageFormat.format(amount), Toast.LENGTH_SHORT
         ).show()
 //        val viewManager = LinearLayoutManager(this)
         myRecyclerView.apply {
@@ -64,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             adapter = UserAdapter(userList, {
                 Toast.makeText(
                     this@MainActivity,
-                    "Clicked on user $it!", Toast.LENGTH_SHORT
+                    MessageFormat.format(getString(R.string.touch)) + "$it!", Toast.LENGTH_SHORT
                 ).show()
                 val sendIntent: Intent = Intent(Intent.ACTION_DIAL).apply {
                     data = Uri.parse("tel:${it.number}")
@@ -73,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             }) {
                 val uri = Uri.parse("smsto:${it.number}")
                 val intent = Intent(Intent.ACTION_SENDTO, uri)
-                intent.putExtra("sms_body", "The SMS text")
+                intent.putExtra("sms_body", "SMS")
                 startActivity(intent)
             }
 //            viewManager.setSpanSizeLookup(object : SpanSizeLookup() {
@@ -105,7 +109,8 @@ class MainActivity : AppCompatActivity() {
                     if (s == grantResults.size) {
                         createRecyclerView()
                     } else {
-                        Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,
+                            MessageFormat.format(getString(R.string.deny)), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -126,13 +131,13 @@ class MainActivity : AppCompatActivity() {
                 while (cursor.moveToNext()) {
                     val name =
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-                            ?: "Not Found"
+                            ?: "N/A"
                     val surname =
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
-                            ?: "Not Found"
+                            ?: "N/A"
                     val phoneNumber =
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                            ?: "Not Found"
+                            ?: "N/A"
 
                     builder.add(User(name, surname, phoneNumber))
                 }

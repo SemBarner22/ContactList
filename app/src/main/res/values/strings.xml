@@ -1,3 +1,9 @@
 <resources>
+    <plurals name="user_amount_strings">
+        <item quantity="one">Found %1$d contact</item>
+        <item quantity="other">Found %1$d contacts</item>
+    </plurals>
     <string name="app_name">ContactList</string>
+    <string name="touch">Clicked on user</string>
+    <string name="deny">Permission Denied</string>
 </resources>

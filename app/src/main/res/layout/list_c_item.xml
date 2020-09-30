@@ -27,7 +27,7 @@
                 android:id="@+id/last_name"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:background="@drawable/ic_launcher_background"
+                android:background="@drawable/ic_android_black_24dp"
                 android:text="Barner"
                 app:layout_constraintEnd_toStartOf="@id/first_name"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
